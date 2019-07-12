@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Soob's Survial Story</title>
+    <description>언제까지 지속될지 모르는 생존 일기.
+</description>
+    <link>https://soob-forest.github.io/</link>
+    <atom:link href="https://soob-forest.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Fri, 12 Jul 2019 16:04:17 +0900</pubDate>
+    <lastBuildDate>Fri, 12 Jul 2019 16:04:17 +0900</lastBuildDate>
+    <generator>Jekyll v3.2.1</generator>
+    
+      <item>
+        <title>어쩌다 js를 공부해야할 상황에 놓여있어 시작한 생존 JS</title>
+        <description>&lt;h1 id=&quot;for-survival-js-start&quot;&gt;For Survival JS sTart&lt;/h1&gt;
+
+&lt;p&gt;생존을 위한 js 시작&lt;/p&gt;
+</description>
+        <pubDate>Fri, 12 Jul 2019 00:00:00 +0900</pubDate>
+        <link>https://soob-forest.github.io/survival_javascript/2019/07/12/javascript2.html</link>
+        <guid isPermaLink="true">https://soob-forest.github.io/survival_javascript/2019/07/12/javascript2.html</guid>
+        
+        <category>lorem</category>
+        
+        
+        <category>Survival_JavaScript</category>
+        
+      </item>
+    
+      <item>
+        <title>For Survival JS sTart</title>
+        <description>&lt;h1 id=&quot;for-survival-js-start&quot;&gt;For Survival JS sTart&lt;/h1&gt;
+
+&lt;p&gt;생존을 위한 js 시작&lt;/p&gt;
+</description>
+        <pubDate>Fri, 12 Jul 2019 00:00:00 +0900</pubDate>
+        <link>https://soob-forest.github.io/survival_javascript/2019/07/12/javascript1.html</link>
+        <guid isPermaLink="true">https://soob-forest.github.io/survival_javascript/2019/07/12/javascript1.html</guid>
+        
+        <category>lorem</category>
+        
+        
+        <category>Survival_JavaScript</category>
+        
+      </item>
+    
+  </channel>
+</rss>
