@@ -4,7 +4,6 @@ title:  "모던 자바스크립트"
 date:   2019-07-12
 author: Soob
 categories: Survival_JavaScript
-tags: lorem
 ---
 
 Modern js
