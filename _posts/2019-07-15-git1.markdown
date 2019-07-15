@@ -1,0 +1,29 @@
+---
+layout: post
+title:  "git의 원리(add와 commit)"
+date:   2019-07-15
+author: Soob
+categories: Survival_Git
+---
+
+git의 원리
+====================================
+같은 내용을 가지고 있으면 같은 object file , filename만 다름
+파일의 내용을 sha1 알고리즘으로 hash값을 만듬
+
+1. add
+  - 파일의 내용(blob)으로 hash값으로 만든다. (sha1알고리즘)
+  - 위의 내용으로 ojects 디렉토리에 object 파일 생성
+  - index 파일에 파일 이름과 object 내용 저장
+
+2. commit
+  - objects 디렉토리에 object 파일 생성
+  - object(hash값을 이름으로 가짐) 파일에는 tree, parent(이전 commit)와 author, committer, commitmessage 같은 정보가 저장
+  - 각각의 commit 별로 object의 hash값이 달라 버전 구별 가능
+  - tree(hash값을 이름으로 가짐)에는 commit되는 파일의 정보(파일의 이름, 파일의 내용)가 저장
+
+3. object은 세개의 형태 중 하나
+  - blob : 파일의 내용  -> add
+  - tree : blob정보, 파일이름  -> commit
+  - commit  -> commit
+  
