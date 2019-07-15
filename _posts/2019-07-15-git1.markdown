@@ -8,8 +8,6 @@ categories: Survival_Git
 
 git의 원리
 ====================================
-같은 내용을 가지고 있으면 같은 object file , filename만 다름
-파일의 내용을 sha1 알고리즘으로 hash값을 만듬
 
 1. add
   - 파일의 내용(blob)으로 hash값으로 만든다. (sha1알고리즘)
