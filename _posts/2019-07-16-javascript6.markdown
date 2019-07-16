@@ -50,4 +50,3 @@ function AObject(name){
 }
 
 //위의 화살표 함수의 this는 AObject 함수 스코프의 this를 카리킨다.
-
