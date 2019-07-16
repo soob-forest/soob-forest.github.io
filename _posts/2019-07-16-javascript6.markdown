@@ -10,9 +10,10 @@ javascript에서 함수 만드는 방법 3가지
 ===================================
 
 * 내가 보기에 편한 방법  
+
 function foo(x, y) {  
 const result = x + y;  
- return result;  
+ return result;   
 }
 
 foo(1, 2); //3
@@ -20,21 +21,27 @@ foo(1, 2); //3
 * 익명 함수를 변수에 할당 하는 방법  
 
 function(x, y) {  
- return x + y; 
+ return x + y;  
 } 
+
 위와 같은 익명 함수를 foo에 할당. 
+
 const foo = function(x, y) {  
- return x + y; 
+ return x + y;  
 }
 
 foo(1, 2); //3
 
 * 화살표 함수  
-const foo = (x, y) => { 
- return x + y; 
+
+const foo = (x, y) =>   { 
+ return x + y;  
 } 
+
 위와 같이 { }내용이 하나의 구문으로 돼있으면, 
+
 const foo = (x, y) => x + y;  
+
 더 축약 할 수 있다.
 
 - 화살표 함수의 다른점
@@ -45,6 +52,7 @@ const foo = (x, y) => x + y;
 이와 같은 특징 때문에 화살표 함수는 함수를 값으로 다루어야 하는 경우(ex. 함수를 다른 함수의 인수로 주는 경우) 사용 된다.
 
 예)  
+
 function AObject(name){  
  this.name;  
  this.getName = () => {return this.name;}  
