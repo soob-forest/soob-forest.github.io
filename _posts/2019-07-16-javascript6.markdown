@@ -11,8 +11,11 @@ javascript에서 함수 만드는 방법 3가지
 
 1. 내가 보기에 편한 방법
 function foo(x, y) {
+
   const result = x + y;
+  
   return result;
+  
 }
 
 foo(1, 2); //3
