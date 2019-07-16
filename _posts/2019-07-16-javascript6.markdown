@@ -17,7 +17,8 @@ const result = x + y;
 
 foo(1, 2); //3
 
-* 익명 함수를 변수에 할당 하는 방법 
+* 익명 함수를 변수에 할당 하는 방법  
+
 function(x, y) {  
  return x + y; 
 } 
