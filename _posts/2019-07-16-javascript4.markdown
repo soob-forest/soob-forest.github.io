@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "순수함수"
-date:   2019-07-15
+date:   2019-07-16
 author: Soob
 categories: Survival_JavaScript
 ---
