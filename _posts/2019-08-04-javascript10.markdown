@@ -1,0 +1,113 @@
+---
+layout: post
+title:  "call stack, event queue(task queue), event loop 그리고 micro task queue를 통한 비동기함수 작동 이해"
+date:   2019-08-04
+author: Soob
+categories: Survival_JavaScript
+---
+
+call stack, event queue(task queue), event loop
+=======================
+
+자바스크립트는 단일 스레드 환경으로 작동한다. 
+즉, call stack에 호출된 함수가 쌓이고, 이를 하나하나 실행한다는 뜻이다.
+이의 문제점을 생각해보면, 만약 call stack에 처리하는데 오래걸리는 함수가 있다면, 이를 처리할 동안에 프로그램은 블라킹, 즉 멈춤것과 같은상태가 된다는 것이다.
+이는 사용자와의 반응성이 더욱 중요시되는 웹 환경에서는 꽤 치명적인 이야기이다 
+이를 해결하기 위해, 단일 스레드 환경에서 프로그램이 어떤식으로 작동하는지 알아보자.
+
+## call stack 
+
+call stack은 간단히 말하자면 실행해야 하는 함수들을 쌓아놓는 곳이다. 
+함수들을 아래에서 부터 쌓아놓고 가장 위의 함수들을 처리해 나간다.
+즉, 결국엔 어떤 함수를 실행하기 위해서는 call stack에 쌓아야 한다는 것이다.
+그렇다면, 비동기함수에서,  콜백함수들은 어느 시점에 call stack에 쌓이느냐가 핵심이 된다.
+이는 아래의 event loop와 event queue의 설명을 보면 알 수 있을것이다.
+
+## event queue 
+
+- call stack에서 비동기 함수를 만났을 때
+
+만약, call stack의 함수들을 처리하다가 비동기 함수를 만났다고 가정하자. 
+그럼 무슨일이 일어날까?
+비동기 함수를 만나게 되면, 런타임 환경에 존재하는 web api에게 함수 처리를 맞기고 함수 호출을 했기 때문에, call stack에서 해당 함수를 지운다.
+그리고 web api는 해당 비동기 함수를 완료하고 받은 콜백함수를 "event queue"에 넣는다.
+
+- event queue
+
+즉, 간단히 말해서 event queue에는 api가 실행하고 건내 준 콜백함수들을 저장하는 곳이다.
+
+그렇다면, 이 event queue에 쌓인 콜백함수들은 어느 시점에 call stack에 쌓이게 될까?
+이와 관련해서는 아래의 event loop에서 설명하게 될 것이다.
+
+## event loop
+
+event loop의 역할은 위의 call stack과 event queue를 이해했다면 쉽게 이해 할 수 있다. 쉽게 말해 event queue 에 있는 작업들을 call stack으로 옮겨 주는 역할을 한다. 그런데, 그냥 call stack으로 보내는 것이 아니다. call stack에 아무런 작업이 없는것을 확인하고 event queue에서 가장 첫번째 콜백 함수를 보내주는 것이다.
+
+위의 내용을 종합하여 아래의 코드의 실행 순서를 예측해 보자.
+
+```
+const stack = [];
+function addTaskToStack(task){
+    stack.push(task);
+}
+
+setTimeout(() => {
+    while(stack.pop() !== undefine){
+        console.log("poppppp!!")
+    }
+}, 0);
+
+addTaskToStack(task1)
+addTaskToStack(task2)
+addTaskToStack(task3)
+addTaskToStack(task4)
+
+```
+위에서 설명한 원리를 모른다면, 
+etTimeout의 파라미터로 0ms 를 줬으니, 
+setTimeout의 콜백함수가 바로 실행되고, while문 내부로 들어가지 못하고 종료된 후
+addTaskToStack() 함수가 실행될거라고 생각 할 것이다.
+그러나, 다시 위의 내용들을 잘 생각해보면
+setTimeout이라는 api 함수는 call stack에 쌓이고, 바로 web api에게 처리를 맡길 것이다. 그리고는 밑에 addTaskToStack() 함수들이 call stack에 쌓일 것이고, web api는 setTimeout 함수를 종료한 뒤 전달받은 콜백함수 (while문이 있는 익명함수)를 event queue에 줄 것이다. 
+그 후에는 event loop는 call stack에 아무 작업이 없을 때 까지 감시하고, 모든 작업이 끝난 뒤 event queue에 있는 콜백함수를 call stack에 전달하게 된다.
+그러므로, 우리의 예상?과는 달리 setTimeout으로 전달한 콜백함수가 가장 마지막에 실행되는 것이다. 
+그래서 사실은 setTimeout의 parameter로 0ms를 주는것은, call stack을 다 비운 뒤에 실행 해 주세요 라는 의미인 것이다.
+
+추가적으로 micro task에 대해서 설명하겠다.
+
+ 
+## micro task
+
+micro task는 위에서 설명한 event queue의 작업들과 마찬가지로, 비동기적으로 실행 될 콜백함수들을 가지고 있는 곳이다. 대신, event queue에 있는 작업들 보다 우선 순위가 높다.
+즉, call stack에 아무 작업이 없는 시점에 micro task와 event queue 둘 다 작업이 있을 경우, micro task 작업이 먼저 실행 된다는 것이다.
+micro task에는 promise의 callback 함수, observer callback 함수가 대표적이다.
+
+위의 예시 코드에 promise를 추가하여 실행 순서를 예측해 보자.
+
+```
+const stack = [];
+function addTaskToStack(task){
+    stack.push(task);
+}
+
+setTimeout(() => {
+    while(stack.pop() !== undefine){
+        console.log("poppppp!!")
+    }
+}, 0);
+
+addTaskToStack(task1)
+addTaskToStack(task2)
+addTaskToStack(task3)
+addTaskToStack(task4)
+
+Promise.resolve().then(()=>{
+  console.log('microtask !!!!!');
+})
+
+```
+위의 코드에서 출력의 순서를 예측 해 보면, 
+poppppp!!이 콘솔창에 출력되기 전에
+microtask !!!!! 이 콘솔창에 출력된다.
+
+
