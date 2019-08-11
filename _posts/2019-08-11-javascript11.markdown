@@ -56,7 +56,7 @@ url_regex = ([\w]*)\:\/\/(([\w\$\-\_\.\+\!\*\']*)?(\:[\w\$\-\_\.\+\!\*\'\(\)\,]*
 
 url 요소에서 있을수도 있고 없을수도 있는것 뒤에는 ?를 사용했다.
 ```
-const urlComponents = url_regex(url_string)
+const urlComponents = url_regex.exec(url_string)
 ```
 
 urlComponets에는 ()로 그루핑된 배열이 들어가고, 없는 것들은 undefined가 들어간다.
