@@ -35,8 +35,8 @@ head는 user에게 보이지 않는다. 브라우저에게 웹 사이트에 필�
 
 
 - semantic tags vs non semantic tags
-  - semantic tags는 tag 이름을 보면 어떤 역할을 하는지 알 수 있는 것들 ex) ```<h1>, <section>``` 등
-  - tag이름에 의미가없는것들, 컨테이너 같은거. 이 안에 내용을 채워넣어야 한다. ex) ```<div>, <span>``` 등
+  - semantic tags는 tag 이름을 보면 어떤 역할을 하는지 알 수 있는 것들 ex)```<h1>, <section>``` 등
+  - tag이름에 의미가없는것들, 컨테이너 같은거. 이 안에 내용을 채워넣어야 한다. ex)```<div>, <span>``` 등
 
 
 - tag의 id , class
