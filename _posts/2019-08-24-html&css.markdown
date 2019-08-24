@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "git의 원리(add와 commit)"
+title:  "html5"
 date:   2019-08-24
 author: Soob
 categories: Survival_HtmlCss
