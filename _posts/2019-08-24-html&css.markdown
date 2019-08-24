@@ -19,7 +19,7 @@ html은 tag로 브라우저가 해석할 수 있도록 해준다. 아마?
 head는 user에게 보이지 않는다. 브라우저에게 웹 사이트에 필요한 정보를 제공할 뿐.
 
 - meta
-브라우저를 위한 추가정보 정보. 그렇기 때문에 head 파트에 작성한다.meta
+브라우저를 위한 추가정보 정보. 그렇기 때문에 head 파트에 작성한다.
 ```
 <meta charset = "utf-8">  : utf8 encoding으로 문서를 작성 할 것이라는 뜻
 <meta name="descriptoin" content="welcome sooob's git">  : 검색 엔진에 웹 사이트의 정보를 제공
