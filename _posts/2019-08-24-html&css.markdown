@@ -20,11 +20,14 @@ head는 user에게 보이지 않는다. 브라우저에게 웹 사이트에 필�
 
 - meta
 브라우저를 위한 추가정보 정보. 그렇기 때문에 head 파트에 작성한다.
+
 ```
+
 <meta charset = "utf-8">  : utf8 encoding으로 문서를 작성 할 것이라는 뜻
 <meta name="descriptoin" content="welcome sooob's git">  : 검색 엔진에 웹 사이트의 정보를 제공
 <meta name="author" content="soob">
 등등
+
 ```
 
 - body
@@ -37,7 +40,9 @@ head는 user에게 보이지 않는다. 브라우저에게 웹 사이트에 필�
 
 
 - tag의 id , class
+
 ```
+
 <body>
   <section>
     <header id="firstHeader" class="defaultHeader">
@@ -51,7 +56,9 @@ head는 user에게 보이지 않는다. 브라우저에게 웹 사이트에 필�
     </header>
   </div>
 </body>
+
 ```
+
 위와 같은 내용이 있을 때, css를 적용해야 한다고 가정하면.
 위의 header tag와 아래의 header tag를 구별을 할 수 있어야 한다. 왜냐하면 똑같은 header tag니까.
 이 때 사용할 수 있는것이 id 혹은 class 속성이다.
