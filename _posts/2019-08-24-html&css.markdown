@@ -1,0 +1,65 @@
+---
+layout: post
+title:  "git의 원리(add와 commit)"
+date:   2019-08-24
+author: Soob
+categories: Survival_HtmlCss
+---
+
+html5
+====================================
+
+- tag란.
+html은 tag로 브라우저가 해석할 수 있도록 해준다. 아마?
+그래서 
+<tag이름 속성="a">내용</tag이름>
+형식으로 tag를 열고 닫고 한다.
+
+- head
+head는 user에게 보이지 않는다. 브라우저에게 웹 사이트에 필요한 정보를 제공할 뿐.
+
+- meta
+브라우저를 위한 추가정보 정보. 그렇기 때문에 head 파트에 작성한다.meta
+```
+<meta charset = "utf-8">  : utf8 encoding으로 문서를 작성 할 것이라는 뜻
+<meta name="descriptoin" content="welcome sooob's git">  : 검색 엔진에 웹 사이트의 정보를 제공
+<meta name="author" content="soob">
+등등
+```
+
+- body
+유저들이 보는 컨텐츠
+
+
+- semantic tags vs non semantic tags
+  - semantic tags는 tag 이름을 보면 어떤 역할을 하는지 알 수 있는 것들 ex) ```<h1>, <section>``` 등
+  - tag이름에 의미가없는것들, 컨테이너 같은거. 이 안에 내용을 채워넣어야 한다. ex) ```<div>, <span>``` 등
+
+
+- tag의 id , class
+```
+<body>
+  <section>
+    <header id="firstHeader" class="defaultHeader">
+      <h1>section Header</h1>
+    </header>
+  </section>
+  
+  <div>
+    <header id="SecondHeader" class="defaultHeader">
+      div Header
+    </header>
+  </div>
+</body>
+```
+위와 같은 내용이 있을 때, css를 적용해야 한다고 가정하면.
+위의 header tag와 아래의 header tag를 구별을 할 수 있어야 한다. 왜냐하면 똑같은 header tag니까.
+이 때 사용할 수 있는것이 id 혹은 class 속성이다.
+id는 유일한 element임을 부여한다, class는 중복이 가능하다 즉, 묶어주는 것이다.
+
+
+
+
+ - 사담
+ 어쩌다 html, css공부를 해야하게 됐다.
+ 웹 개발자를 하려면  필수라는 생각도 들었고.. 사실 생존을 위해 하게됐다.
