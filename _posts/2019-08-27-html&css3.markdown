@@ -16,7 +16,7 @@ inline 방법은 좋지 않은 것 같아 생략한다.
 
 - internal
 
-<head> tag 사이에 style tag를 삽입 하는 방식
+head tag 사이에 style tag를 삽입 하는 방식
 
 ```
 
