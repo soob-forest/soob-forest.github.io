@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "css "
+title:  "css 구문"
 date:   2019-08-27
 author: Soob
 categories: Survival_HtmlCss
