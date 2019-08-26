@@ -19,6 +19,7 @@ inline 방법은 좋지 않은 것 같아 생략한다.
 <head> tag 사이에 style tag를 삽입 하는 방식
 
 ```
+
 <head>
 <style>
   body{
@@ -26,6 +27,7 @@ inline 방법은 좋지 않은 것 같아 생략한다.
   }
 </style>
 </head>
+
 ```
 
 - external
@@ -35,14 +37,18 @@ inline 방법은 좋지 않은 것 같아 생략한다.
 style.css
 
 ```
+
 body{
     background-color : red;
   }
+  
 ```
 
-index.html
+style.html
 ```
+
 <head>
   <link href="style.css" rel="stylesheet">
 </head>
+
 ```
