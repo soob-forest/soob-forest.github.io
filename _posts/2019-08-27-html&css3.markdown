@@ -1,0 +1,48 @@
+---
+layout: post
+title:  "css 와 html 연결"
+date:   2019-08-27
+author: Soob
+categories: Survival_HtmlCss
+---
+
+Mix Css with HTML
+====================================
+
+html과 css를 스타일을 적용하기 위해 크게 3가지 방법이 있다.
+
+첫 번째로는 internal , 두 번째로는 external, 세 번째로는 inline.
+inline 방법은 좋지 않은 것 같아 생략한다.
+
+- internal
+
+<head> tag 사이에 style tag를 삽입 하는 방식
+
+```
+<head>
+<style>
+  body{
+    background-color : red;
+  }
+</style>
+</head>
+```
+
+- external
+
+외부에 css 파일을 만들어 링크 하는 방식
+
+style.css
+
+```
+body{
+    background-color : red;
+  }
+```
+
+index.html
+```
+<head>
+  <link href="style.css" rel="stylesheet">
+</head>
+```
