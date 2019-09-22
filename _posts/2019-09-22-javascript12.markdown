@@ -1,0 +1,167 @@
+---
+layout: post
+title: "바닐라 자바스크립트로 클라이언트 사이드 랜더링 구현 생존기.."
+date: 2019-09-22
+author: Soob
+categories: Survival_JavaScript
+---
+
+# 바닐라 자바스크립트로 클라이언트 사이드 랜더링 구현 생존기
+
+내가 이해한 클라이언트 사이드 렌더링은 클라이언트 사이드, 즉 브라우저의 dom 함수들을 이용해 element들을 추가, 삭제 하며, 화면에 뿌려주는 것이다.
+
+서버사이드 렌더링은 반대로 완성된, html파일이 서버에서 오면 브라우저는 그대로 파싱 해 화면에 뿌려 주는 것이다.
+
+이 둘의 핵심 차이점은, 클라이언트 사이드 렌더링 방식은 페이지를 이동 혹은 재요청 해도 반드시 서버측과 통신 할 필요가 없다. 필요하다면, json 형식으로 필요한 data만 요청하고 받으면 된다. 그러나 서버 사이드 렌더링에서는 렌더링 작업이 필요하면 항상 서버로부터 html을 요청하고 받아야 한다.
+
+그래서, 클라이언트 사이드 랜더링에서 javascript는 뭘 하는데? 라고 물으신다면, 그냥 원하는 dom객체를 만들어서 끼워 넣어주기만 하면된다.
+그럼 브라우저가 알아서 node tree를 만들어서 화면에 뿌려준다.
+
+아참 그리고, 필요하다면, 렌더링 후에 이벤트 등록도 javascript로 구현하면 된다. 이벤트 등록은 항상 랜더링 작업이 끝나고 실행되어야 한다.
+
+## 삽질 1. 뭐가 뭔지도 모르고 그냥 막 하는 단계
+
+엘리먼트들은 innerHtml 이라는 property를 가지고 있다. 이게 뭐하는거냐.. 음.. 나도 잘은 모르지만 예시로 어떤 것인지 설명해보겠다.
+document는 항상 body라는 element를 가지고 있다. 그런데 body tag 안에 내가 원하는 element를 추가하고 싶다면 간단하게 innerHtml을 사용하면 된다.
+
+```
+document.body.innerHtml += "<div class = 'customDiv'>customDiv</div>"
+```
+
+위와 같은 javascript가 실행되면 body element 안에 내가 원하는 element가 추가된다.
+그리고 아마도, 브라우저는 다시 랜더링해 화면에 그려준다.
+
+위와 같은 내용을 알게되고 와 너무 쉽다.
+새로운 페이지로 가는 이벤트를 받으면, document.body.innerHtml 에 원하는 내용 다 넣으면 되잖아? 라고 생각했고..
+그때그때 body에 원하는 내용을 다 넣어서 렌더링 시켰다.
+이런식으로
+
+회원가입 페이지를 클릭한다 - >
+
+```
+document.body.innerHtml =
+<header><div class="title"><span>Soob's 노예등록</span><div></div></div></header><main> <div class="title"> </div><ul class="personal_information__list"><li class="id"><span>아이디</span><div class="box__text"><input type="text" class="id__input" id=""></div><section class="id__message"></section></li><li class="password"><span>비밀번호</span><div class="box__text"><input type="password" class="password__input" id=""></div><section class="password__message"></section></li><li class="password_check"><span>비밀번호 재확인</span><div class="box__text"><input type="password" class="password_check__input" id=""></div><section class="password_check__message"></section></li><li class="name"><span>이름</span><div class="box__text"><input type="text" class="name__input" id=""></div><section class="name__message"></section></li><li class="birthday"><span>생년월일</span><div class="box__text"><input type="text" placeholder="년(4자)" class="birthday__year" id=""><select name="성별" class="birthday__month" id=""><option value="0" selected="selected">월</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select><input type="text" placeholder="일" class="birthday__day" id=""></div><section class="name__message"></section></li><li class="sex"><span>성별</span><div class="box__text"><select name="성별" class="sex__selected" id=""><option value="0" selected="selected">성별</option><option value="1">녀</option><option value="2">남</option></select></div></li><li class="email"><span>이메일</span><div class="box__text"><input type="text" class="email__input" id=""></div><section class="email__message"></section></li><li class="phone-number"><span>폰번호 (-없이 입력 해 주세요)</span><div class="box__text"><input type="text" class="phone__input" id=""></div><section class="phone__message"></section></li><li class="interestings"><span>관심사</span><div class="box__text"><div class="interestings__tags"></div><input type="text" class="interestings__input" id=""></div></li></ul><section class="agree"><a class="span__agree">약관에 동의합니다. </a><input type="checkbox" class="check__yackkwon" disabled=""></section><section class="btn__class"><div class="btn" id="btn__reset">초기화</div><div class="btn" id="btn__submit">가입하기</div></section><section class="btn__class__message"></section>
+```
+
+이렇게 하니 유연하지 못했고, 원하는 element를 바꿔가며, 데이터만 바꿔가며 빠른 렌더링을 지향하는 클라이언트 사이드 랜더링의 장점을 살리지 못했고, 치명적인 단점으로는 웃겼다 코드가 그냥.
+
+## 삽질 2. 컨셉을 조금은 이해 한 상태. 내가 원하는 element들이 무엇인지 파악하고, element별로 html형식의 string을 반환하는 함수를 가진 객체를 생성. 이 객체들을 조립해 페이지를 랜더링
+
+삽질 1에서의 상황에서 조금은 발전했다.
+역할을 가진 즉, 메세지를 날리고, 받고 해야하는 element들이 무엇인지 생각하고 그에 따라 객체를 나누었다.
+그리고 각 객체들은, 중요 기능으로 html 형식의 string을 반환하는 render()함수와 이벤트를 등록하는 registEvent()함수를 가지고 있다.
+
+회원가입 페이지를 예를 들면,
+input을 받는 element들이 여러 개 존재할 것이고,
+이는
+
+render() 함수를 호출 하면,
+
+```
+<div class="box__text" style=""><input type="text" class="id__input" id=""></div>
+```
+
+와 같은 내용의 string 타입을 반환 하고,
+registEvent()를 호출하면, input값에 들어가 있는 data의 유효성을 검사하는 event를 등록하는
+객체가 여러개 있다는 것을 의미한다.
+
+그래서 클래스 내용을 간단히 보자면, 아래와 같이 구성했다.
+
+```
+class InputBox {
+    constructor(classname) {
+        this._classname = classname;
+        this._target;
+        this._events = [];
+    }
+    render() {
+        return this.className !== undefined ? `<div class = ${this.className}></div>` : `<div></div>`
+    }
+    setTarget(target) {
+        this._target = target === undefined ? document.querySelector(`.${this.classname}`) : target;
+    }
+    registerEvents() {
+        this.events.forEach((event) => {
+            this.target.addEventListener(event.name, event.callback);
+        })
+    }
+}
+```
+
+위의 class 객체를 사용 할 시 주의점이 있는데 render() , setTarget(), registerEvent() 이 함수의 호출 순서를 항상 지켜야 한다는 것이다.
+왜냐하면, 랜더링을해야, 자신의 element node가 생기고, element node가 있어야 자신에게 이벤트를 등록 할 수 있기 때문이다.
+이는 페이지를 랜더링 하는 javascript 내용을 복잡하게 만들었고 , 신경써야할 부분이 많아 사용성에 문제가 있었다.
+
+## 마지막 삽질.
+
+삽질 2에서 발견한 문제를 해결하기 위해서 고민을 했고,
+element 객체를 받으면 랜더링, setTarget, 이벤트 등록을 해주는 builder를 만들면 되겠다고 생각했다.
+좀 더 생각해보니, builder를 만들기 위해서는 통일된 인터페이스를 통해 모든 element 객체를 생성해야 한다는 결론이 나왔고, 그래서 모든 element들은 Element Class를 extends해 사용하게끔 구조를 아래와 같이 바꾸었다.
+
+```
+class CircleBtn extends Element {
+    constructor(maincard, index) {
+        super();
+        this._picked = false;
+        this._index = index;
+        this._maincard = maincard;
+    }
+    setTarget() {
+        super.setTarget(document.getElementById(`circlebtn_${this.index}`))
+    }
+    choiced() {
+        this.picked = true;
+        this.updateVisible();
+        this.updateColorBlack();
+        this.maincard.notifyPicked(this);
+
+        this.goEvent.circleIndex = this.index;
+        document.querySelector('.carouselmain').dispatchEvent(this.goEvent);
+    }
+    registerEvents() {
+        this.addEvent({ name: "click", callback: this.choiced.bind(this) })
+    }
+    render() {
+        return `<div class="circlebtn" id = circlebtn_${this.index}></div>`
+    }
+}
+```
+
+그리고 마지막.. 빌더를 생성.
+빌더가 하는 일은, element list를 받은 뒤, 순서대로 render를 하고, target을 set 해주고, event를 등록 해 준다.
+
+```
+export const elementbuilder = {
+    build(nodes) {
+        if (Array.isArray(nodes)) {
+            nodes.forEach((node) => {
+                this.render(node.place, node.element.render())
+            })
+            nodes.forEach((node) => {
+                if (node.element.target === undefined) node.element.setTarget();
+                node.element.registerEvents();
+            })
+        }
+        else {
+            nodes.render();
+            if (nodes.target === undefined) nodes.setTarget();
+            nodes.registerEvents();
+        }
+    },
+    render(place, renderStirng) {
+        place.innerHTML += renderStirng;
+    },
+    buildtarget(elements) {
+        elements.forEach((node) => {
+            if (node.target === undefined) node.setTarget();
+        })
+    }
+}
+```
+
+빌더를 통해서, 항상 순서대로 호출해야 하는 함수들을 추상화 시킴으로써, 랜더링이 필요한 객체들을 사용하기에 더 편해졌다.
+
+아직도.. 마음에 안드는 부분이 있지만 거의 2주 혹은 조금 넘는 시간동안 고민하면서 조금씩 코드를 개선해 봤다.
+이 과정이 코드 개선에 기여했는지는 모르겠지만.. 분명, 객체지향적으로 사고하는데는 도움이 많이 됐다.
+
+# 끗.
